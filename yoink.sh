@@ -27,8 +27,9 @@ read video_format
 
 # Run yt-dlp with hardcoded video format, dump file name to temp text file
 yt-dlp -f $video_format $URL > temp_video.txt
-# Extract the actual filename for use later in script
+#Extract the actual filename for use later in script
 video=$(cat temp_video.txt | grep Destination | awk -F": " '{print $2}')
+mv "$video" "video.$video"
 
 # Run yt-dlp with hardcoded audio format, dump file name to temp text file
 yt-dlp -f $audio_format $URL > temp_audio.txt
