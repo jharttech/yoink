@@ -30,6 +30,7 @@ yt-dlp -f $video_format $URL > temp_video.txt
 #Extract the actual filename for use later in script
 video=$(cat temp_video.txt | grep Destination | awk -F": " '{print $2}')
 mv "$video" "video.$video"
+new_video="video.$video"
 
 # Run yt-dlp with hardcoded audio format, dump file name to temp text file
 yt-dlp -f $audio_format $URL > temp_audio.txt
@@ -37,10 +38,10 @@ yt-dlp -f $audio_format $URL > temp_audio.txt
 audio=$(cat temp_audio.txt | grep Destination | awk -F": " '{print $2}')
 
 # Use ffmpeg to smash the video file and audio file into a single mp4
-ffmpeg -i "$video" -i "$audio" -c:a copy "$Filename".mp4
+ffmpeg -i "$new_video" -i "$audio" -c:a copy "$Filename".mp4
 
 # Remove all temp files
-rm "$video"
+rm "video.$video"
 rm "$audio"
 rm temp_video.txt
 rm temp_audio.txt
