@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 ###################################
 # 20241216 yoink
@@ -15,13 +15,23 @@ echo ""
 echo "What do you want to final video file to be named? "
 read "Filename"
 
+# Run with -F flag for user to decide which audio and video they want
+yt-dlp -F $URL
+
+echo ""
+echo "Please type which audio format you want and press 'Enter': "
+read audio_format
+echo ""
+echo "Please type which video format you want and press 'Enter': "
+read video_format
+
 # Run yt-dlp with hardcoded video format, dump file name to temp text file
-yt-dlp -f 399 $URL > temp_video.txt
+yt-dlp -f $video_format $URL > temp_video.txt
 # Extract the actual filename for use later in script
 video=$(cat temp_video.txt | grep Destination | awk -F": " '{print $2}')
 
 # Run yt-dlp with hardcoded audio format, dump file name to temp text file
-yt-dlp -f 140 $URL > temp_audio.txt
+yt-dlp -f $audio_format $URL > temp_audio.txt
 # Extract the actual filename for use later in script
 audio=$(cat temp_audio.txt | grep Destination | awk -F": " '{print $2}')
 
